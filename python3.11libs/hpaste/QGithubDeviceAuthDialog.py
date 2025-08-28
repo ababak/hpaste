@@ -184,7 +184,7 @@ if __name__ == '__main__':  # testing
     import random
     try:
         from PySide2.QtWidgets import QApplication
-    except ImportError
+    except ImportError:
         from PySide6.QtWidgets import QApplication
     qapp = QApplication(sys.argv)
     # w = QWebAuthDialog('https://www.google.com', r'https://www.google.com/search\?(.*)')
