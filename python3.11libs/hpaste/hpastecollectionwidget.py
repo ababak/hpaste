@@ -1,7 +1,13 @@
 import hou
 
-from PySide2.QtCore import Slot, QSortFilterProxyModel, QRegExp, Qt
-from PySide2.QtWidgets import QInputDialog, QMessageBox
+try:
+    from PySide2.QtCore import Slot, QSortFilterProxyModel, QRegExp, Qt
+    from PySide2.QtWidgets import QInputDialog, QMessageBox
+except ImportError:
+    # Houdini 21.0 still uses Python 3.11 but now ships with PySide6
+    from PySide6.QtCore import Slot, QSortFilterProxyModel, Qt
+    from PySide6.QtCore import QRegularExpression as QRegExp
+    from PySide6.QtWidgets import QInputDialog, QMessageBox
 
 from . import hpaste
 from .hcollections.collectionwidget import CollectionWidget
@@ -30,7 +36,8 @@ class HPasteCollectionWidget(object):
 
             self.__nettypeFilter = QSortFilterProxyModel(self)
             self.__nettypeFilter.setFilterKeyColumn(4)
-            self.__nettypeFilter.setFilterRegExp(QRegExp("*", Qt.CaseInsensitive, QRegExp.Wildcard))
+            # self.__nettypeFilter.setFilterRegExp(QRegExp("*", Qt.CaseInsensitive, QRegExp.Wildcard))
+            self.__nettypeFilter.setFilterRegExp(QRegExp("*"))
             self.appendFilter(self.__nettypeFilter)
 
             self.accepted.connect(self.doOnAccept)
@@ -56,7 +63,8 @@ class HPasteCollectionWidget(object):
             else:
                 nettype = hpaste.getChildContext(pane.pwd(), hou.applicationVersion())
                 self.__netType = nettype
-            self.__nettypeFilter.setFilterRegExp(QRegExp(nettype, Qt.CaseInsensitive, QRegExp.Wildcard))
+            # self.__nettypeFilter.setFilterRegExp(QRegExp(nettype, Qt.CaseInsensitive, QRegExp.Wildcard))
+            self.__nettypeFilter.setFilterRegExp(QRegExp(nettype))
 
         @Slot(object)
         def doOnAccept(self, item):

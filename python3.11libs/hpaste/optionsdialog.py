@@ -4,9 +4,15 @@ if __name__ == '__main__':  # very old testing crap
     os.environ['PATH'] = r'C:\Program Files\Side Effects Software\Houdini 16.0.600\bin' + r';C:\Program Files\Side Effects Software\Houdini 16.0.600\houdini\dso;' + os.environ['PATH']
     os.environ['HOUDINI_USER_PREF_DIR'] = r'C:\Users\User\Documents\houdini16.0'
 
-from PySide2.QtWidgets import *
-from PySide2.QtGui import *
-from PySide2.QtCore import *
+try:
+    from PySide2.QtWidgets import *
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+except ImportError:
+    # Houdini 21.0 still uses Python 3.11 but now ships with PySide6
+    from PySide6.QtWidgets import *
+    from PySide6.QtGui import *
+    from PySide6.QtCore import *
 
 import time
 import random

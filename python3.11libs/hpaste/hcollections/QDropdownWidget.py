@@ -1,6 +1,11 @@
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-from PySide2.QtGui import *
+try:
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
+    from PySide2.QtGui import *
+except ImportError:
+    from PySide6.QtCore import *
+    from PySide6.QtWidgets import *
+    from PySide6.QtGui import *
 
 import re
 
@@ -91,7 +96,8 @@ class QDropdownWidget(QWidget):
         self.__proxyModel = QSortFilterProxyModel(self)
         self.__proxyModel.setSourceModel(self.__model)
         self.__proxyModel.setFilterKeyColumn(0)
-        self.__proxyModel.setFilterRegExp(QRegExp("*", Qt.CaseInsensitive, QRegExp.Wildcard))
+        # self.__proxyModel.setFilterRegExp(QRegExp("*", Qt.CaseInsensitive, QRegExp.Wildcard))
+        self.__proxyModel.setFilterRegExp(QRegExp("*"))
         self.ui.mainView.setModel(self.__proxyModel)
 
         self.ui.nameInput = QFocusedLineEdit(self)
@@ -190,7 +196,8 @@ class QDropdownWidget(QWidget):
     @Slot(str)
     def filterTable(self, filtername):
         # self.__proxyModel.setFilterRegExp(QRegExp("%s"%filtername, Qt.CaseInsensitive, QRegExp.Wildcard))
-        self.__proxyModel.setFilterRegExp(QRegExp(".+".join(re.split(r'\s+', filtername)), Qt.CaseInsensitive, QRegExp.RegExp2))
+        # self.__proxyModel.setFilterRegExp(QRegExp(".+".join(re.split(r'\s+', filtername)), Qt.CaseInsensitive, QRegExp.RegExp2))
+        self.__proxyModel.setFilterRegExp(QRegExp(".+".join(re.split(r'\s+', filtername))))
 
     @Slot(int)
     def sort(self, column=0):
@@ -227,8 +234,8 @@ class QDropdownWidget(QWidget):
         self.ui.nameInput.setText('')
         self.ui.mainView.setCurrentIndex(self.__proxyModel.index(0, 0))
         # screen = QGuiApplication.screenAt(self.pos()) #  proper way, but only available in qt5 and for some reason missing in PySide2
-        screenGeo = QApplication.desktop().screenGeometry(self)
-
+        # screenGeo = QApplication.desktop().screenGeometry(self)
+        screenGeo = QtGui.QGuiApplication.primaryScreen().availableGeometry()
         maxsizeY = screenGeo.height() - self.pos().y()
         self.setMaximumHeight(max(self.minimumHeight(), maxsizeY))
         self.ui.mainView.resizeColumnsToContents()

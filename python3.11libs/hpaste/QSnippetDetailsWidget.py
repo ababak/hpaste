@@ -1,9 +1,15 @@
 from datetime import datetime
 # it's high time to forget Qt4, this will be qt5 only
-from PySide2.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QLineEdit, QCheckBox,\
-    QLabel, QTableWidget, QTableWidgetItem, QHeaderView, QSizePolicy, QMessageBox, QDialog, QTextEdit, QPushButton
-from PySide2.QtCore import Signal, Slot, Qt, QSize
-from PySide2.QtGui import QKeySequence
+try:
+    from PySide2.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QLineEdit, QCheckBox,\
+        QLabel, QTableWidget, QTableWidgetItem, QHeaderView, QSizePolicy, QMessageBox, QDialog, QTextEdit, QPushButton
+    from PySide2.QtCore import Signal, Slot, Qt, QSize
+    from PySide2.QtGui import QKeySequence
+except ImportError:
+    from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QLineEdit, QCheckBox,\
+        QLabel, QTableWidget, QTableWidgetItem, QHeaderView, QSizePolicy, QMessageBox, QDialog, QTextEdit, QPushButton
+    from PySide6.QtCore import Signal, Slot, Qt, QSize
+    from PySide6.QtGui import QKeySequence
 from .hpasteweb import webUnpack
 from .hpaste import stringToData, WrongKeyError
 from .codeanalysis import generate_report_data
@@ -273,7 +279,10 @@ def nice_memory_formatting(memory_bytes):
 
 def test():
     import sys
-    from PySide2.QtWidgets import QApplication
+    try:
+        from PySide2.QtWidgets import QApplication
+    except ImportError:
+        from PySide6.QtWidgets import QApplication
     qapp = QApplication(sys.argv)
 
     wgt = QSnippetDetailsWidget()

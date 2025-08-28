@@ -7,7 +7,10 @@ try:
     from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
     from PySide2.QtCore import Slot, Qt, QUrl
 except ImportError:
-    raise NotImplementedError('web auth implemented only for QT5. Sorry, people who still use houdini 16.5. You will have to create access token manually. contact me to ask how.')
+    from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QSizePolicy, QPushButton, QMessageBox
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+    from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEnginePage
+    from PySide6.QtCore import Slot, Qt, QUrl
 
 import time
 
@@ -179,7 +182,10 @@ if __name__ == '__main__':  # testing
     import sys
     import string
     import random
-    from PySide2.QtWidgets import QApplication
+    try:
+        from PySide2.QtWidgets import QApplication
+    except ImportError
+        from PySide6.QtWidgets import QApplication
     qapp = QApplication(sys.argv)
     # w = QWebAuthDialog('https://www.google.com', r'https://www.google.com/search\?(.*)')
     webauthstate = ''.join(random.choice(string.ascii_letters) for _ in range(32))
@@ -191,4 +197,3 @@ if __name__ == '__main__':  # testing
     res = w.exec_()
     print(res == QGithubDeviceAuthDialog.Accepted)
     print(w.get_result())
-

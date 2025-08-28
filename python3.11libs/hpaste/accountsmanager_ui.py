@@ -7,7 +7,11 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide2 import QtCore, QtGui, QtWidgets
+try:
+    from PySide2 import QtCore, QtGui, QtWidgets
+except ImportError:
+    # Houdini 21.0 still uses Python 3.11 but now ships with PySide6
+    from PySide6 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -66,4 +70,3 @@ class Ui_MainWindow(object):
         self.removeAuthPushButton.setText(QtWidgets.QApplication.translate("MainWindow", "remove", None, -1))
         self.reinitPushButton.setText(QtWidgets.QApplication.translate("MainWindow", "re-initialize\n"
 "collections", None, -1))
-

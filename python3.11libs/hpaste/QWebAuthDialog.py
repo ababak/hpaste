@@ -9,7 +9,9 @@ try:
     from PySide2.QtWebEngineWidgets import QWebEngineView
     from PySide2.QtCore import QUrl
 except ImportError:
-    raise NotImplementedError('web auth implemented only for QT5. Sorry, people who still use houdini 16.5')
+    from PySide6.QtWidgets import QDialog, QVBoxLayout
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+    from PySide6.QtCore import QUrl
 
 
 class QWebAuthDialog(QDialog):
@@ -42,7 +44,10 @@ if __name__ == '__main__':  # testing
     import sys
     import string
     import random
-    from PySide2.QtWidgets import QApplication
+    try:
+        from PySide2.QtWidgets import QApplication
+    except ImportError:
+        from PySide6.QtWidgets import QApplication
     qapp = QApplication(sys.argv)
     # w = QWebAuthDialog('https://www.google.com', r'https://www.google.com/search\?(.*)')
     webauthstate = ''.join(random.choice(string.ascii_letters) for _ in range(32))

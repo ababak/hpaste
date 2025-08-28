@@ -8,8 +8,13 @@ except Exception:  # not just import error, in case of buggy h19.5p3.9 it's synt
     crypto_available = False
     AES = None
 
-from PySide2.QtWidgets import QApplication
-from PySide2 import QtCore as qtc
+try:
+    from PySide2.QtWidgets import QApplication
+    from PySide2 import QtCore as qtc
+except ImportError:
+    # Houdini 21.0 still uses Python 3.11 but now ships with PySide6
+    from PySide6.QtWidgets import QApplication
+    from PySide6 import QtCore as qtc
 
 from .hpaste import stringToNodes, nodesToString, InvalidContextError, WrongKeyLengthError, WrongKeyError, NoKeyError
 from .QSnippetDetailsWidget import QSnippetDetailsWidget

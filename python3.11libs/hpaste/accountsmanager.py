@@ -1,6 +1,12 @@
-from PySide2.QtWidgets import *
-from PySide2.QtGui import *
-from PySide2.QtCore import *
+try:
+    from PySide2.QtWidgets import *
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+except ImportError:
+    # Houdini 21.0 still uses Python 3.11 but now ships with PySide6
+    from PySide6.QtWidgets import *
+    from PySide6.QtGui import *
+    from PySide6.QtCore import *
 
 from . import accountsmanager_ui
 

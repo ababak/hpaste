@@ -4,7 +4,11 @@ from urllib import request
 import hou
 
 from .nethelper import urlopen_nt
-from PySide2.QtWidgets import QMessageBox, QInputDialog
+try:
+    from PySide2.QtWidgets import QMessageBox, QInputDialog
+except ImportError:
+    # Houdini 21.0 still uses Python 3.11 but now ships with PySide6
+    from PySide6.QtWidgets import QMessageBox, QInputDialog
 from .QGithubDeviceAuthDialog import QGithubDeviceAuthDialog
 
 
